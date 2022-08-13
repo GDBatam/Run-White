@@ -33,11 +33,6 @@ public class GridManager : MonoBehaviour
 
     #region Methods
 
-    public void GetPosition()
-    {
-        
-    }
-
     private void GenerateGrid()
     {
         tiles = new Tile[setting.width, setting.height];
@@ -78,12 +73,6 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         GenerateGrid();
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
     }
 
     #endregion

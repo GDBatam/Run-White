@@ -2,110 +2,108 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity
-{
-    public Transform position;
-
-    public GameObject skin;
-}
-
-public class PartPosition
-{
-    public Vector3 currentPosition;
-
-    public Vector3 targetPosition;
-}
-
 
 public class SnakeController : MonoBehaviour
 {
     #region Fields
 
-    [SerializeField] private float iterateTimer = 0.5f;
+    [SerializeField] private float _iterateTimer = 0.5f;
 
-    private float currentTimer = 0f;
+    [Header("snake")]
+    [SerializeField] private GameObject _head;
 
-    List<GameObject> targetGrid;
+    [SerializeField] private GameObject _bodyPrefab;
+    [SerializeField] private List<GameObject> _bodies = new List<GameObject>();
 
-    public List<GameObject> snake;
+    [SerializeField] private GameObject _tail;
 
-    public List<Entity> snakes = new List<Entity>();
+    private float _currentTimer = 0f;
 
-    public Vector2Int direction = new Vector2Int();
+    #endregion
 
-    public float speed = 1;
+    #region Properties
 
-    private List<PartPosition> partsTargetPosition = new List<PartPosition>();
+    public bool CanUpdateInput { get; set; } = true;
+
+    public bool CanMove { get; set; }
 
     #endregion
 
     #region Methods
 
-    public void SetVector2(Vector2 targetPosition)
+    public void ExtendBody(ConsumableType type)
     {
-        
-    }
-
-    private void DetectInput()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
+        switch (type)
         {
-            if (direction != Vector2Int.down)
+            case ConsumableType.Egg:
             {
-                direction = Vector2Int.up;
+                // plus 1 body
+                GameObject tmp = Instantiate(_bodyPrefab);
+                _bodies.Add(tmp);
+                break;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            if (direction != Vector2Int.right)
+            case ConsumableType.Apple:
             {
-                direction = Vector2Int.left;
+                GameObject tmp = Instantiate(_bodyPrefab);
+                _bodies.Add(tmp);
+                float addspeed = _iterateTimer * 0.3f;
+                _iterateTimer -= addspeed;
+                break;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (direction != Vector2Int.up)
+            case ConsumableType.Rat:
             {
-                direction = Vector2Int.down;
+                for(int i = 0; i<2; i++)
+                {
+                    GameObject tmp = Instantiate(_bodyPrefab);
+                    _bodies.Add(tmp);
+                }
+                float addspeed = _iterateTimer * 0.3f;
+                _iterateTimer -= addspeed;
+                break;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            if (direction != Vector2Int.left)
-            {
-                direction = Vector2Int.right;
-            }
-        }
-    }
-
-    private void ProcessPosition()
-    {
-        if (currentTimer >= iterateTimer)
-        {
-            // head
-            Vector3Int currentPosition = new Vector3Int((int) transform.position.x, (int) transform.position.y, (int) transform.position.z);
-            Vector3Int targetPosition = currentPosition + (Vector3Int) direction;
-
-            // head
-            partsTargetPosition[0] = new PartPosition()
-            {
-                currentPosition = currentPosition,
-                targetPosition = targetPosition
-            };
-
-            currentTimer = 0f;
         }
     }
 
     private void UpdatePosition()
     {
-        // count = 1 ( head )
-        for (int i = 0; i < partsTargetPosition.Count; i++)
+        if (!CanMove)
         {
-            transform.position = Vector3.Lerp(partsTargetPosition[i].currentPosition, partsTargetPosition[i].targetPosition, speed * Time.deltaTime);
+            return;
+        }
+
+        // CanMove is true, so snake can update position.
+        if (_currentTimer >= _iterateTimer)
+        {
+            // hold head previous position.
+            Vector3 headPreviousPosition = _head.transform.position;
+
+            // head
+            Vector3 headPosition = _head.transform.position;
+            Vector3 headTargetPosition = headPosition + GameManager.Singleton.Direction;
+            _head.transform.position = headTargetPosition;
+
+            Vector3 bodyNextPosition = headPreviousPosition;
+
+            // bodies
+            Vector3 bodyPreviousPosition;
+
+            int count = _bodies.Count;
+            for (int i = 0; i < count; i++)
+            {
+                bodyPreviousPosition = _bodies[i].transform.position;
+                //update current body position
+                _bodies[i].transform.position = bodyNextPosition;
+
+                //update next body position
+                bodyNextPosition = bodyPreviousPosition;
+
+            }
+
+            _tail.transform.position = bodyNextPosition;
+
+            CanUpdateInput = true;
+
+            _currentTimer = 0f;
         }
     }
 
@@ -113,19 +111,11 @@ public class SnakeController : MonoBehaviour
 
     #region Build-in Methods
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     private void Update()
     {
-        currentTimer += Time.deltaTime;
+        _currentTimer += Time.deltaTime;
 
-        DetectInput();
-        ProcessPosition();
         UpdatePosition();
     }
 
