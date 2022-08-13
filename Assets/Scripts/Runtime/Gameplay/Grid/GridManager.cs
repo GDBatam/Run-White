@@ -21,8 +21,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] 
     private GameObject prefabTile;
 
-    public List<GameObject> grids = new List<GameObject>();
-
     private Tile[,] tiles;
 
     #endregion
@@ -35,6 +33,11 @@ public class GridManager : MonoBehaviour
 
     #region Methods
 
+    public void GetPosition()
+    {
+        
+    }
+
     private void GenerateGrid()
     {
         tiles = new Tile[setting.width, setting.height];
@@ -45,8 +48,14 @@ public class GridManager : MonoBehaviour
             {
                 GameObject newTile = Instantiate<GameObject>(prefabTile);
                 newTile.transform.position = new Vector3(i, j, 0);
-                grids.Add(newTile);
-                tiles[i,j] = new Tile; 
+                newTile.name = $"Tile {i}-{j}";
+
+                tiles[i,j] = new Tile()
+                {
+                    x = i,
+                    y = j,
+                    prefab = newTile
+                }; 
             }
         }
     }

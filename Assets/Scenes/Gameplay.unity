@@ -134,12 +134,12 @@ GameObject:
   - component: {fileID: 73571237}
   - component: {fileID: 73571238}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &73571237
 Transform:
   m_ObjectHideFlags: 0
@@ -168,7 +168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setting: {fileID: 11400000, guid: 714839c4a2a225c4691f7795a1feda54, type: 2}
   prefabTile: {fileID: 1558054878069387021, guid: e3c0f29c250ff894da8c645dbb03fec3, type: 3}
-  grids: []
 --- !u!1 &82596746
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +258,27 @@ Transform:
   m_Father: {fileID: 477684919}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &432046109 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2011046784626166268, guid: bdfa0a7be8d346f40801f2f99f63b7c4, type: 3}
+  m_PrefabInstance: {fileID: 1242885462}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &432046110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432046109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a298eec98a4b6734cad2798e2cc19ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iterateTimer: 0.1
+  snake: []
+  direction: {x: 0, y: 0}
+  speed: 1
 --- !u!1001 &472944686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -583,7 +603,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
