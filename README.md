@@ -38,7 +38,7 @@ We started this project on the 1st of August 2022 and completion on the 1st of O
   - Nikko
 
 # Contacts
-- [mailto:game.developer.batam@gmail.com]
+- [email](mailto:game.developer.batam@gmail.com)
 - [Instagram](http://www.instagram.com/gdb.community)
 - [Facebook](https://www.facebook.com/groups/gamedevbatam)
 - [YouTube](https://www.youtube.com/channel/UC8Tw5uio66JSGL6_5SbE5_g)
