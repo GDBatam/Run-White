@@ -31,37 +31,47 @@ public class SnakeController : MonoBehaviour
 
     #region Methods
 
-    public void ExtendBody(ConsumableType type)
+    public void ExtendBody(ConsumableInfo info)
     {
-        switch (type)
-        {
-            case ConsumableType.Egg:
-            {
-                // plus 1 body
-                GameObject tmp = Instantiate(_bodyPrefab);
-                _bodies.Add(tmp);
-                break;
-            }
-            case ConsumableType.Apple:
-            {
-                GameObject tmp = Instantiate(_bodyPrefab);
-                _bodies.Add(tmp);
-                float addspeed = _iterateTimer * 0.3f;
-                _iterateTimer -= addspeed;
-                break;
-            }
-            case ConsumableType.Rat:
-            {
-                for(int i = 0; i<2; i++)
-                {
-                    GameObject tmp = Instantiate(_bodyPrefab);
-                    _bodies.Add(tmp);
-                }
-                float addspeed = _iterateTimer * 0.3f;
-                _iterateTimer -= addspeed;
-                break;
-            }
+        GameObject tmp;
+        for(int i = 0; i<info.extend; i++){
+            tmp = Instantiate(_bodyPrefab);
+            _bodies.Add(tmp);
         }
+
+        _iterateTimer -= _iterateTimer * info.increaseSpeed; 
+        
+
+        // switch (type)
+        // {
+        //     case ConsumableType.Egg:
+        //     {
+        //         // plus 1 body
+        //         GameObject tmp = Instantiate(_bodyPrefab);
+        //         _bodies.Add(tmp);
+        //         break;
+        //     }
+        //     case ConsumableType.Apple:
+        //     {
+        //         GameObject tmp = Instantiate(_bodyPrefab);
+        //         _bodies.Add(tmp);
+        //         float addspeed = _iterateTimer * 0.3f;
+        //         _iterateTimer -= addspeed;
+        //         break;
+        //     }
+        //     case ConsumableType.Rat:
+        //     {
+        //         for(int i = 0; i<2; i++)
+        //         {
+        //             GameObject tmp = Instantiate(_bodyPrefab);
+        //             _bodies.Add(tmp);
+        //         }
+        //         float addspeed = _iterateTimer * 0.3f;
+        //         _iterateTimer -= addspeed;
+        //         break;
+        //     }
+        // }
+        
     }
 
     private void UpdatePosition()
