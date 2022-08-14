@@ -35,43 +35,43 @@ public class SnakeController : MonoBehaviour
     {
         GameObject tmp;
         for(int i = 0; i<info.extend; i++){
-            tmp = Instantiate(_bodyPrefab);
+            tmp = Instantiate(_bodyPrefab,(Vector2) _head.transform.position, Quaternion.identity);
             _bodies.Add(tmp);
+    
+            UpdateSnakeFullBody();
         }
 
-        _iterateTimer -= _iterateTimer * info.increaseSpeed; 
-        
+        _iterateTimer -= _iterateTimer * info.increaseSpeed;
+    }
 
-        // switch (type)
-        // {
-        //     case ConsumableType.Egg:
-        //     {
-        //         // plus 1 body
-        //         GameObject tmp = Instantiate(_bodyPrefab);
-        //         _bodies.Add(tmp);
-        //         break;
-        //     }
-        //     case ConsumableType.Apple:
-        //     {
-        //         GameObject tmp = Instantiate(_bodyPrefab);
-        //         _bodies.Add(tmp);
-        //         float addspeed = _iterateTimer * 0.3f;
-        //         _iterateTimer -= addspeed;
-        //         break;
-        //     }
-        //     case ConsumableType.Rat:
-        //     {
-        //         for(int i = 0; i<2; i++)
-        //         {
-        //             GameObject tmp = Instantiate(_bodyPrefab);
-        //             _bodies.Add(tmp);
-        //         }
-        //         float addspeed = _iterateTimer * 0.3f;
-        //         _iterateTimer -= addspeed;
-        //         break;
-        //     }
-        // }
-        
+    private void UpdateSnakeFullBody()
+    {
+        // hold head previous position.
+        Vector3 headPreviousPosition = _head.transform.position;
+
+        // head
+        Vector3 headPosition = _head.transform.position;
+        Vector3 headTargetPosition = headPosition;
+        _head.transform.position = headTargetPosition;
+
+        Vector3 bodyNextPosition = headPreviousPosition;
+
+        // bodies
+        Vector3 bodyPreviousPosition;
+
+        int count = _bodies.Count;
+        for (int i = 0; i < count; i++)
+        {
+            bodyPreviousPosition = _bodies[i].transform.position;
+            //update current body position
+            _bodies[i].transform.position = bodyNextPosition;
+
+            //update next body position
+            bodyNextPosition = bodyPreviousPosition;
+
+        }
+
+        _tail.transform.position = bodyNextPosition;
     }
 
     private void UpdatePosition()
