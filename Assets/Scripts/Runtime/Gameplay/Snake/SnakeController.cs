@@ -33,12 +33,16 @@ public class SnakeController : MonoBehaviour
 
     public void ExtendBody(ConsumableInfo info)
     {
+        Vector2 extendPos = _bodies[_bodies.Count - 1].transform.position;
+        //_head.transform.position
         GameObject tmp;
         for(int i = 0; i<info.extend; i++){
-            tmp = Instantiate(_bodyPrefab,(Vector2) _head.transform.position, Quaternion.identity);
+            tmp = Instantiate(_bodyPrefab,(Vector2) extendPos, Quaternion.identity);
+
             _bodies.Add(tmp);
     
             UpdateSnakeFullBody();
+            tmp.GetComponent<BoxCollider2D>().enabled = true;
         }
 
         _iterateTimer -= _iterateTimer * info.increaseSpeed;
@@ -51,7 +55,7 @@ public class SnakeController : MonoBehaviour
 
         // head
         Vector3 headPosition = _head.transform.position;
-        Vector3 headTargetPosition = headPosition;
+        Vector3 headTargetPosition = headPosition + GameManager.Singleton.Direction;
         _head.transform.position = headTargetPosition;
 
         Vector3 bodyNextPosition = headPreviousPosition;
