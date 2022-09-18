@@ -6,6 +6,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     [SerializeField] List<GameObject> itemPrefabs;
     [SerializeField] GridSetting setting;
+    [SerializeField] private Transform transformX, transformY;
     int maxPositionX, maxPositionY;
 
 
@@ -21,7 +22,9 @@ public class ObjectSpawner : MonoBehaviour
 
     private Vector2 GenerateRandomPosition()
     {
+        float randomX = Random.Range(transformX.position.x, transformY.position.x);
+        float randomY = Random.Range(transformX.position.y, transformY.position.y);
 
-        return new Vector2(Random.Range(1, maxPositionX-1),Random.Range(1, maxPositionY-1));
+        return new Vector2(randomX, randomY);
     }
 }
